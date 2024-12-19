@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/dimen_10dp"
+    android:paddingTop="@dimen/dimen_10dp"
+    android:paddingRight="@dimen/dimen_10dp">
+
+    <ImageView
+        android:id="@+id/MomentUser_imageview"
+        android:layout_width="@dimen/dimen_50dp"
+        android:layout_height="@dimen/dimen_50dp"
+        android:contentDescription="@string/NULL"
+        android:src="@mipmap/user"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/MomentUser_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_15dp"
+        android:inputType="text"
+        android:maxLines="1"
+        android:text="@string/张三"
+        android:textColor="@color/Blue"
+        android:textSize="@dimen/dimen_15sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/MomentUser_imageview"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextViewEdits"
+        />
+
+    <TextView
+        android:id="@+id/MomentContent_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:text="Hello World!"
+        android:textColor="@color/_161616"
+        android:textSize="@dimen/dimen_15sp"
+        app:layout_constraintLeft_toLeftOf="@id/MomentUser_textview"
+        app:layout_constraintTop_toBottomOf="@id/MomentUser_textview"
+        />
+
+    <ImageView
+        android:id="@+id/MomentPhoto_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/NULL"
+        android:maxWidth="@dimen/dimen_200dp"
+        android:maxHeight="@dimen/dimen_200dp"
+        android:scaleType="centerInside"
+        app:layout_constraintLeft_toLeftOf="@id/MomentContent_textview"
+        app:layout_constraintTop_toBottomOf="@id/MomentContent_textview"
+        />
+
+    <TextView
+        android:id="@+id/MomentTime_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:inputType="text"
+        android:maxLines="1"
+        android:text="@string/_5分钟前"
+        android:textColor="@color/BBBBBB"
+        android:textSize="@dimen/dimen_15sp"
+        app:layout_constraintLeft_toLeftOf="@id/MomentPhoto_imageview"
+        app:layout_constraintTop_toBottomOf="@id/MomentPhoto_imageview"
+        tools:ignore="TextViewEdits"
+        />
+
+    <TextView
+        android:id="@+id/Like_textview"
+        android:layout_width="@dimen/dimen_20dp"
+        android:layout_height="@dimen/dimen_20dp"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:gravity="center"
+        android:text="@string/_0"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/MomentTime_textview"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/MomentTime_textview"
+        />
+
+    <ImageView
+        android:id="@+id/Like_imageview"
+        android:layout_width="@dimen/dimen_20dp"
+        android:layout_height="@dimen/dimen_20dp"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:background="@mipmap/like"
+        android:contentDescription="@string/NULL"
+        app:layout_constraintBottom_toBottomOf="@id/MomentTime_textview"
+        app:layout_constraintRight_toLeftOf="@id/Like_textview"
+        app:layout_constraintTop_toTopOf="@id/MomentTime_textview"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:background="@color/E4E4E4"
+        app:layout_constraintTop_toBottomOf="@id/MomentTime_textview"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

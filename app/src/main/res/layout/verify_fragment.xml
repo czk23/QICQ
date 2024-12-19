@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background3"
+    tools:context=".Fragment.VerifyFragment">
+
+    <ImageButton
+        android:id="@+id/Back_image_button"
+        android:layout_width="@dimen/dimen_30dp"
+        android:layout_height="@dimen/dimen_30dp"
+        android:layout_marginStart="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/dimen_40dp"
+        android:background="@mipmap/back"
+        android:contentDescription="@string/back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_80dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/验证账号"
+        android:textColor="@color/White"
+        android:textSize="@dimen/dimen_50sp"
+        android:textStyle="normal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/Username_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_30dp"
+        android:layout_marginTop="@dimen/dimen_40dp"
+        android:layout_marginRight="@dimen/dimen_30dp"
+        android:alpha="0.8"
+        android:autofillHints=""
+        android:hint="@string/用户名"
+        android:textColorHint="@color/Black"
+        android:inputType="text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TextView"
+        />
+
+    <EditText
+        android:id="@+id/Email_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_30dp"
+        android:layout_marginTop="@dimen/dimen_40dp"
+        android:layout_marginRight="@dimen/dimen_30dp"
+        android:alpha="0.8"
+        android:autofillHints=""
+        android:hint="@string/邮箱"
+        android:textColorHint="@color/Black"
+        android:inputType="text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@id/Username_edittext"
+        app:layout_constraintLeft_toRightOf="@id/Username_edittext"
+        app:layout_constraintTop_toBottomOf="@id/Username_edittext"
+        tools:ignore="TextFields"
+        />
+
+    <EditText
+        android:id="@+id/Code_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_30dp"
+        android:layout_marginTop="@dimen/dimen_40dp"
+        android:layout_marginRight="@dimen/dimen_30dp"
+        android:alpha="0.8"
+        android:autofillHints=""
+        android:hint="@string/验证码"
+        android:textColorHint="@color/Black"
+        android:inputType="text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@id/Email_edittext"
+        app:layout_constraintLeft_toRightOf="@id/Email_edittext"
+        app:layout_constraintTop_toBottomOf="@id/Email_edittext"
+        tools:ignore="TextFields"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/Code_edittext">
+
+        <Button
+            android:id="@+id/Send_button"
+            android:layout_width="@dimen/dimen_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_30dp"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginEnd="@dimen/dimen_20dp"
+            android:layout_weight="1"
+            android:alpha="0.7"
+            android:background="@drawable/button_background"
+            android:text="@string/发送验证码"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/Verify_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginEnd="@dimen/dimen_30dp"
+            android:layout_weight="1"
+            android:alpha="0.7"
+            android:background="@drawable/button_background"
+            android:text="@string/确认"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
