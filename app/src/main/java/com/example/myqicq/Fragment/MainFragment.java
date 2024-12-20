@@ -3,9 +3,12 @@ package com.example.myqicq.Fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,12 +17,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.myqicq.Activity.AddFriendActivity;
 import com.example.myqicq.Object.User;
 import com.example.myqicq.MyApplication;
 import com.example.myqicq.R;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,9 +37,10 @@ public class MainFragment extends Fragment {
 
     // UI components
     private View view;
-    private TabLayout tabLayout;
-    private TextView titleTextView;
-    private ImageView plusImageView;
+    private TabLayout Tab_Layout;
+    private TextView Title_Textview;
+    private ImageView Plus_Imageview;
+    private ImageButton Avatar_imagebutton;
 
     // Fragments managed by this class
     private Fragment messageFragment;
@@ -59,9 +67,15 @@ public class MainFragment extends Fragment {
 
         // Initialize views and setup events
         initViews(view);
+        loadUserData();
         setupTabLayout();
         setupPlusButton();
-        loadUserData();
+        setupAvatarImageButton();
+
+        // 取消当前选中状态
+        Tab_Layout.selectTab(null);
+        // 重新选中
+        Objects.requireNonNull(Tab_Layout.getTabAt(0)).select();
 
         return view;
     }
@@ -72,9 +86,10 @@ public class MainFragment extends Fragment {
      * @param view Root view of the fragment
      */
     private void initViews(View view) {
-        tabLayout = view.findViewById(R.id.Tab_Layout);
-        titleTextView = view.findViewById(R.id.Title_textview);
-        plusImageView = view.findViewById(R.id.Plus_image_view);
+        Tab_Layout = view.findViewById(R.id.Tab_Layout);
+        Title_Textview = view.findViewById(R.id.Title_textview);
+        Plus_Imageview = view.findViewById(R.id.Plus_image_view);
+        Avatar_imagebutton = view.findViewById(R.id.Avatar_image_button);
     }
 
     /**
@@ -93,11 +108,11 @@ public class MainFragment extends Fragment {
     private void setupTabLayout() {
         // Add four tabs with custom views
         for (int i = 0; i < 4; i++) {
-            tabLayout.addTab(tabLayout.newTab().setCustomView(createTabView(i)));
+            Tab_Layout.addTab(Tab_Layout.newTab().setCustomView(createTabView(i)));
         }
 
         // Handle tab selection events
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        Tab_Layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 handleTabSelection(tab.getPosition());
@@ -152,36 +167,42 @@ public class MainFragment extends Fragment {
      */
     private void handleTabSelection(int position) {
         // ImageView imageView = tabLayout.getTabAt(position).getCustomView().findViewById(R.id.Icon_imageview);
-        ImageView imageView = Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(position)).getCustomView()).findViewById(R.id.Icon_imageview);
+        ImageView imageView = Objects.requireNonNull(Objects.requireNonNull(Tab_Layout.getTabAt(position)).getCustomView()).findViewById(R.id.Icon_imageview);
         switch (position) {
             case 0:
                 imageView.setImageResource(R.mipmap.message_select);
-                titleTextView.setText("消息");
+                Title_Textview.setText("消息");
                 replaceFragment(messageFragment);
                 currentIndex = 0;
-                plusImageView.setVisibility(View.INVISIBLE);
+                Avatar_imagebutton.setVisibility(View.VISIBLE);
+                loadImage();
+                Plus_Imageview.setVisibility(View.INVISIBLE);
                 break;
             case 1:
                 imageView.setImageResource(R.mipmap.contact_select);
-                titleTextView.setText("联系人");
+                Title_Textview.setText("联系人");
                 replaceFragment(contactFragment);
                 currentIndex = 1;
-                plusImageView.setVisibility(View.INVISIBLE);
-//                plusImageView.setImageResource(R.mipmap.add_friends);
+                Avatar_imagebutton.setVisibility(View.VISIBLE);
+                loadImage();
+                Plus_Imageview.setVisibility(View.INVISIBLE);
                 break;
             case 2:
                 imageView.setImageResource(R.mipmap.discover_select);
-                titleTextView.setText("我的空间");
+                Title_Textview.setText("我的空间");
                 replaceFragment(discoverFragment);
                 currentIndex = 2;
-                plusImageView.setVisibility(View.INVISIBLE);
+                Avatar_imagebutton.setVisibility(View.VISIBLE);
+                loadImage();
+                Plus_Imageview.setVisibility(View.INVISIBLE);
                 break;
             case 3:
                 imageView.setImageResource(R.mipmap.my_select);
-                titleTextView.setText("我");
+                Title_Textview.setText("我");
                 replaceFragment(meFragment);
                 currentIndex = 3;
-                plusImageView.setVisibility(View.INVISIBLE);
+                Avatar_imagebutton.setVisibility(View.INVISIBLE);
+                Plus_Imageview.setVisibility(View.INVISIBLE);
                 break;
         }
     }
@@ -193,7 +214,7 @@ public class MainFragment extends Fragment {
      */
     private void handleTabUnselection(int position) {
         // ImageView imageView = tabLayout.getTabAt(position).getCustomView().findViewById(R.id.Icon_imageview);
-        ImageView imageView = Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(position)).getCustomView()).findViewById(R.id.Icon_imageview);
+        ImageView imageView = Objects.requireNonNull(Objects.requireNonNull(Tab_Layout.getTabAt(position)).getCustomView()).findViewById(R.id.Icon_imageview);
         switch (position) {
             case 0:
                 imageView.setImageResource(R.mipmap.message1);
@@ -210,11 +231,38 @@ public class MainFragment extends Fragment {
         }
     }
 
+    private void setupAvatarImageButton() {
+        Avatar_imagebutton.setOnClickListener(view ->  {
+            // 创建下一个 Fragment
+            HomepageFragment Homepage_fragment = new HomepageFragment();
+
+            // 开始 FragmentTransaction
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+
+            // 设置动画：从右滑入左滑出，创建左滑切换效果
+            transaction.setCustomAnimations(
+                    R.anim.slide_in_left,  // 进入动画：从右侧滑入
+                    R.anim.slide_out_right // 离开动画：向左滑出
+            );
+
+            // 替换当前 Fragment
+            transaction.replace(R.id.fragment_container, Homepage_fragment);
+
+            // 添加到回退栈（如果需要回退到前一个 Fragment）
+            transaction.addToBackStack(null);
+
+
+
+            // 提交事务
+            transaction.commit();
+        });
+    }
+
     /**
      * Set up the plus button to handle click events based on the current tab.
      */
     private void setupPlusButton() {
-        plusImageView.setOnClickListener(view -> {
+        Plus_Imageview.setOnClickListener(view -> {
             if (currentIndex == 1) {
                 // Open AddFriendActivity when "Contacts" tab is selected
                 Intent intent = new Intent(getContext(), AddFriendActivity.class);
@@ -249,4 +297,23 @@ public class MainFragment extends Fragment {
             MyApplication.setUser(user);
         }
     }
+
+    private void loadImage() {
+        User user = MyApplication.getUser();
+        String avatarUrl = user.getAvatar();
+        RequestOptions options = new RequestOptions().transform(new RoundedCorners(40)); // 设置圆角样式
+
+        // 根据头像地址加载图片
+        if ("123".equals(avatarUrl)) {
+            Glide.with(this).load(R.mipmap.user).apply(options).into(Avatar_imagebutton);
+        }
+        else {
+            Glide.with(this)
+                    .load(avatarUrl)
+                    .placeholder(R.mipmap.user) // 加载中的默认头像
+                    .apply(options)
+                    .into(Avatar_imagebutton);
+        }
+    }
+
 }

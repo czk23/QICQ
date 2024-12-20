@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         // Load the initial StartFragment
         addFragment(new StartFragment());
 
+        setFullscreen(false, false);
+
         // Start the background task
         startBackgroundTask();
     }

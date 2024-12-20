@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background3"
+    android:background="@mipmap/background8"
     tools:context=".Fragment.RegisterFragment">
     
     <ImageButton
@@ -94,9 +94,9 @@
         android:id="@+id/Register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="@dimen/dimen_80dp"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:layout_marginRight="@dimen/dimen_80dp"
         android:alpha="0.7"
         android:background="@drawable/button_background"
         android:text="@string/注册"
